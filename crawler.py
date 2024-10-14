@@ -11,22 +11,22 @@ def crawl(url, depth):
         
         try:
             response = requests.get(current_url)
-            if response.status_code !=200:
+            print(f"Fetching URL: {current_url}, Status Code: {response.status_code}")
+            if response.status_code != 200:
                 return
-            
+
             crawled_links.add(current_url)
             soup = BeautifulSoup(response.text, 'html.parser')
 
             # Extract and normalize links
-
             for link in soup.find_all('a', href=True):
                 absolute_link = urljoin(current_url, link['href'])
                 if absolute_link not in crawled_links:
                     recursive_crawl(absolute_link, current_depth + 1)
 
-        except requests.RequestException:
+        except requests.RequestException as e:
+            print(f"Request failed for {current_url}: {e}")
             return
-    
+
     recursive_crawl(url, 0)
     return list(crawled_links)
-            

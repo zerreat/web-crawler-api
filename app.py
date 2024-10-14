@@ -8,34 +8,43 @@ app = Flask(__name__)
 # Route for displaying the HTML form
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', error=None, success=None, download_link=None)
 
 # Create a route for the crawl API
 @app.route('/crawl', methods=['POST'])
 def crawl_endpoint():
-    # Check if form data was submitted
     root_url = request.form.get('root_url')
     depth = request.form.get('depth', 2)
 
     if not root_url:
-        return jsonify({"error": "root_url is required"}), 400
+        return render_template('index.html', error="Root URL is required.", success=None, download_link=None)
 
     # Ensure depth is an integer
     try:
         depth = int(depth)
     except ValueError:
-        return jsonify({"error": "Depth must be a number"}), 400
+        return render_template('index.html', error="Depth must be a number.", success=None, download_link=None)
 
-    # Call the crawl function
-    crawled_links = crawl(root_url, depth)
+    try:
+        # Call the crawl function
+        crawled_links = crawl(root_url, depth)
+    except Exception as e:
+        return render_template('index.html', error="An error occurred during crawling. Please try again.", success=None, download_link=None)
+
+    if not crawled_links:
+        return render_template('index.html', error="No links found or invalid URL. Please check and enter the full url including https://www.example.com then try again.", success=None, download_link=None)
 
     # Save the crawled links to a JSON file
     file_path = 'crawled_links.json'
     with open(file_path, 'w') as json_file:
         json.dump({"crawled_links": crawled_links}, json_file)
 
-    # Send the JSON file as a response
-    return send_file(file_path, as_attachment=True, download_name='crawled_links.json')
+    # Send success message and download link
+    return render_template('index.html', error=None, success="File is ready to download.", download_link="/download")
+
+@app.route('/download')
+def download_file():
+    return send_file('crawled_links.json', as_attachment=True, download_name='crawled_links.json')
 
 if __name__ == '__main__':
     app.run(debug=True)

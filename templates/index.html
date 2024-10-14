@@ -3,18 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Crawler</title>
+    <title>Web Crawler by Arpan Shrivastava</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1>Web Crawler</h1>
-    <form method="POST" action="/crawl" enctype="multipart/form-data">
-        <label for="root_url">Website URL:</label>
-        <input type="text" id="root_url" name="root_url" required><br><br>
+    <header>
+        <h1>Welcome!     Assist 2 Path Tech Team</h1>
+        <p>Thank you for the opportunity. Below is the web crawler created for your question #2. I hope you find it useful. Feel free to check out my projects and reach out for further discussions!</p>
+    </header>
 
-        <label for="depth">Depth (default 2):</label>
-        <input type="number" id="depth" name="depth" value="2"><br><br>
+    <section id="crawler-form">
+        <h2>Web Crawler</h2>
+        <p>Enter a website URL (https://www.example.com) and crawl depth to generate the crawled links as a JSON file:</p>
 
-        <button type="submit">Crawl Website</button>
-    </form>
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" action="/crawl" enctype="multipart/form-data" onsubmit="showLoading(event)">
+            <label for="root_url">Website URL:</label>
+            <input type="text" id="root_url" name="root_url" required><br>
+        
+            <label for="depth">Depth (default 2):</label>
+            <input type="number" id="depth" name="depth" value="2"><br>
+        
+            <button type="submit">Crawl Website</button>
+        </form>
+        
+        <div id="loading" style="display: none;">
+            <div class="loading-icon"></div>
+            <p>Crawling the website... please wait.</p>
+        </div>
+
+        {% if success %}
+        <div class="success">{{ success }}</div>
+        {% endif %}
+
+
+        {% if download_link %}
+        <a href="{{ download_link }}" class="download-btn">Download Crawled Links</a>
+        {% endif %}
+        
+    </section>
+
+
+    <section id="contact-info">
+        <h2>Contact Information</h2>
+        <p><strong>Name:</strong> Arpan Shrivastava</p>
+        <p><strong>Phone:</strong> +91-9509795529</p>
+        <p><strong>Email:</strong> <a href="mailto:arpan.11.1991@gmail.com">arpan.11.1991@gmail.com</a></p>
+        <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/shrivastava-arpan" target="_blank">linkedin.com/in/shrivastava-arpan</a></p>
+        <p><strong>Project:</strong> <a href="https://github.com/zerreat/web-crawler-api" target="_blank">github.com/zerreat/web-crawler-api</a></p>
+        <p><strong>GitHub:</strong> <a href="https://github.com/zerreat" target="_blank">github.com/zerreat</a></p>
+    </section>
+
+
+    <footer>
+        <p>Created by Arpan Shrivastava</p>
+        <p>Current Application: Assist 2 Path Tech - Internship, posted on Internshala. Job description: Design, develop scalable services using Python (Fast API/Flask). <a href="https://internshala.com" target="_blank">Read more on Internshala</a></p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 </html>
