@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Crawler</title>
+</head>
+<body>
+    <h1>Web Crawler</h1>
+    <form method="POST" action="/crawl" enctype="multipart/form-data">
+        <label for="root_url">Website URL:</label>
+        <input type="text" id="root_url" name="root_url" required><br><br>
+
+        <label for="depth">Depth (default 2):</label>
+        <input type="number" id="depth" name="depth" value="2"><br><br>
+
+        <button type="submit">Crawl Website</button>
+    </form>
+</body>
+</html>
