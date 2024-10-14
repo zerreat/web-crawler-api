@@ -2,6 +2,9 @@
 
 This project is a web crawler API built using Python and Flask. The API takes a root URL and a depth value as inputs and returns a JSON file containing all the crawled links up to the specified depth. Additionally, the project provides a simple web interface for users to interact with the API and download the crawled links easily.
 
+You can directly access the web crawler at:
+**[http://web-crawler-api-production.up.railway.app/](http://web-crawler-api-production.up.railway.app/)**
+
 ## Features
 - Recursively crawls websites up to a user-defined depth.
 - Extracts and returns unique links from the crawled pages.
@@ -16,7 +19,7 @@ This project is a web crawler API built using Python and Flask. The API takes a 
 
 ## Installation
 
-To get started with this project, follow these steps:
+To get started with this project locally, follow these steps:
 
 1. **Clone the repository**:
 ```bash
@@ -38,6 +41,16 @@ pip install -r requirements.txt
 ```
 ## Usage
 
+### Option 1: Using the Hosted Web Interface
+1. **Access the web interface: You can directly access the hosted version of this web crawler at: `http://web-crawler-api-production.up.railway.app/`**
+
+2. **Input the URL and Depth:**
+
+* Enter the website URL (e.g., `https://www.example.com`).
+* Set the desired crawl depth (default is 2).
+* Click the "Crawl Website" button.
+
+3. **Download the Result: After the crawl is completed, you can download the `crawled_links.json` file by clicking the "Download Crawled Links" button.**
 
 ### Option 2: Using cURL or Postman
 1. **Start the Flask server**:
