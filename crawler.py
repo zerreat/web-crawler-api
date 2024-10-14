@@ -18,7 +18,6 @@ def crawl(url, depth):
             crawled_links.add(current_url)
             soup = BeautifulSoup(response.text, 'html.parser')
 
-            # Extract and normalize links
             for link in soup.find_all('a', href=True):
                 absolute_link = urljoin(current_url, link['href'])
                 if absolute_link not in crawled_links:

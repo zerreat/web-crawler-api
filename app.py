@@ -5,12 +5,10 @@ from crawler import crawl
 
 app = Flask(__name__)
 
-# Route for displaying the HTML form
 @app.route('/')
 def index():
     return render_template('index.html', error=None, success=None, download_link=None)
 
-# Create a route for the crawl API
 @app.route('/crawl', methods=['POST'])
 def crawl_endpoint():
     root_url = request.form.get('root_url')
@@ -19,14 +17,12 @@ def crawl_endpoint():
     if not root_url:
         return render_template('index.html', error="Root URL is required.", success=None, download_link=None)
 
-    # Ensure depth is an integer
     try:
         depth = int(depth)
     except ValueError:
         return render_template('index.html', error="Depth must be a number.", success=None, download_link=None)
 
     try:
-        # Call the crawl function
         crawled_links = crawl(root_url, depth)
     except Exception as e:
         return render_template('index.html', error="An error occurred during crawling. Please try again.", success=None, download_link=None)
@@ -34,12 +30,10 @@ def crawl_endpoint():
     if not crawled_links:
         return render_template('index.html', error="No links found or invalid URL. Please check and enter the full url including https://www.example.com then try again.", success=None, download_link=None)
 
-    # Save the crawled links to a JSON file
     file_path = 'crawled_links.json'
     with open(file_path, 'w') as json_file:
         json.dump({"crawled_links": crawled_links}, json_file)
 
-    # Send success message and download link
     return render_template('index.html', error=None, success="File is ready to download.", download_link="/download")
 
 @app.route('/download')
