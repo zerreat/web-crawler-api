@@ -23,18 +23,22 @@ def crawl_endpoint():
         return render_template('index.html', error="Depth must be a number.", success=None, download_link=None)
 
     try:
-        crawled_links = crawl(root_url, depth)
+        # Set the maximum crawl time to 60 seconds
+        crawled_links = crawl(root_url, depth, max_time=300)
+    except TimeoutError:
+        return render_template('index.html', error="The crawling process took too long. Please try again with a lower depth.", success=None, download_link=None)
     except Exception as e:
         return render_template('index.html', error="An error occurred during crawling. Please try again.", success=None, download_link=None)
 
     if not crawled_links:
-        return render_template('index.html', error="No links found or invalid URL. Please check and enter the full url including https://www.example.com then try again.", success=None, download_link=None)
+        return render_template('index.html', error="No links found or invalid URL. Please check and try again.", success=None, download_link=None)
 
     file_path = 'crawled_links.json'
     with open(file_path, 'w') as json_file:
         json.dump({"crawled_links": crawled_links}, json_file)
 
     return render_template('index.html', error=None, success="File is ready to download.", download_link="/download")
+
 
 @app.route('/download')
 def download_file():
