@@ -4,11 +4,11 @@ from urllib.parse import urljoin
 import time
 
 def crawl(url, depth, max_time=60):
-    start_time = time.time()  # Track the start time of the crawling
+    start_time = time.time()  
     crawled_links = set()
 
     def recursive_crawl(current_url, current_depth):
-        # Check if the crawl time has exceeded the max_time
+
         if time.time() - start_time > max_time:
             raise TimeoutError("Crawling process exceeded the time limit")
 
@@ -16,7 +16,7 @@ def crawl(url, depth, max_time=60):
             return
         
         try:
-            response = requests.get(current_url, timeout=10)  # 10 seconds timeout for individual requests
+            response = requests.get(current_url, timeout=10) 
             if response.status_code != 200:
                 return
             
